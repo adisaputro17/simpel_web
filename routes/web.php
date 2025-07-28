@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\Auth\PegawaiLoginController;
+use App\Http\Controllers\IzinKeluarController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,4 +15,5 @@ Route::post('/logout', [PegawaiLoginController::class, 'logout'])->name('logout'
 
 Route::middleware(['auth:pegawai'])->group(function () {
     Route::resource('pegawai', PegawaiController::class);
+    Route::resource('izin_keluar', IzinKeluarController::class);
 });
