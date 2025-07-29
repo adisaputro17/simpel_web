@@ -5,6 +5,7 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\Auth\PegawaiLoginController;
 use App\Http\Controllers\IzinKeluarController;
 use App\Http\Controllers\TugasTambahanController;
+use App\Http\Controllers\PenilaianController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,4 +19,13 @@ Route::middleware(['auth:pegawai'])->group(function () {
     Route::resource('pegawai', PegawaiController::class);
     Route::resource('izin_keluar', IzinKeluarController::class);
     Route::resource('tugas_tambahan', TugasTambahanController::class);
+
+    Route::prefix('penilaian')->group(function () {
+        Route::get('{jenis}', [PenilaianController::class, 'index'])->name('penilaian.index');
+        Route::get('{jenis}/create', [PenilaianController::class, 'create'])->name('penilaian.create');
+        Route::post('{jenis}', [PenilaianController::class, 'store'])->name('penilaian.store');
+        Route::get('{jenis}/{id}/edit', [PenilaianController::class, 'edit'])->name('penilaian.edit');
+        Route::put('{jenis}/{id}', [PenilaianController::class, 'update'])->name('penilaian.update');
+        Route::delete('{jenis}/{id}', [PenilaianController::class, 'destroy'])->name('penilaian.destroy');
+    });
 });
