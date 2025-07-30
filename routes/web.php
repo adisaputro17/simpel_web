@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\PegawaiLoginController;
 use App\Http\Controllers\IzinKeluarController;
 use App\Http\Controllers\TugasTambahanController;
 use App\Http\Controllers\PenilaianController;
+use App\Http\Controllers\PenampilanHarianController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,4 +29,8 @@ Route::middleware(['auth:pegawai'])->group(function () {
         Route::put('{jenis}/{id}', [PenilaianController::class, 'update'])->name('penilaian.update');
         Route::delete('{jenis}/{id}', [PenilaianController::class, 'destroy'])->name('penilaian.destroy');
     });
+
+    Route::get('penampilan', [PenampilanHarianController::class, 'index'])->name('penampilan.index');
+    Route::get('penampilan/create', [PenampilanHarianController::class, 'create'])->name('penampilan.create');
+    Route::post('penampilan', [PenampilanHarianController::class, 'store'])->name('penampilan.store');
 });
