@@ -1,42 +1,45 @@
-<p>
-    <label>Pegawai:</label><br>
-    <select name="nip">
+<div class="form-group">
+    <label for="nip">Pegawai</label>
+    <select name="nip" id="nip" class="form-control">
         @foreach($pegawai as $p)
-        <option value="{{ $p->nip }}" {{ old('nip', $item->nip ?? '') == $p->nip ? 'selected' : '' }}>
-            {{ $p->nama }} ({{ $p->nip }})
-        </option>
+            <option value="{{ $p->nip }}" {{ old('nip', $item->nip ?? '') == $p->nip ? 'selected' : '' }}>
+                {{ $p->nama }} ({{ $p->nip }})
+            </option>
         @endforeach
     </select>
-</p>
-<p>
-    <label>Bulan:</label><br>
-    <select name="bulan">
+</div>
+
+<div class="form-group">
+    <label for="bulan">Bulan</label>
+    <select name="bulan" id="bulan" class="form-control">
         @for ($i = 1; $i <= 12; $i++)
-            <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}"
-                {{ old('bulan', $item->bulan ?? '') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
-                {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}
+            @php $bln = str_pad($i, 2, '0', STR_PAD_LEFT); @endphp
+            <option value="{{ $bln }}" {{ old('bulan', $item->bulan ?? '') == $bln ? 'selected' : '' }}>
+                {{ $bln }}
             </option>
         @endfor
     </select>
-</p>
-<p>
-    <label>Tahun:</label><br>
-    <select name="tahun">
-        <option value="2025" {{ old('tahun', $item->tahun ?? '') == '2025' ? 'selected' : '' }}>2025</option>
-        <option value="2026" {{ old('tahun', $item->tahun ?? '') == '2026' ? 'selected' : '' }}>2026</option>
+</div>
+
+<div class="form-group">
+    <label for="tahun">Tahun</label>
+    <select name="tahun" id="tahun" class="form-control">
+        @for($t = 2025; $t <= 2026; $t++)
+            <option value="{{ $t }}" {{ old('tahun', $item->tahun ?? '') == $t ? 'selected' : '' }}>{{ $t }}</option>
+        @endfor
     </select>
-</p>
-<p>
-    <label>Nilai:</label><br>
-    <select name="nilai">
-        @foreach([25,50,75,100] as $n)
-        <option value="{{ $n }}" {{ old('nilai', $item->nilai ?? '') == $n ? 'selected' : '' }}>{{ $n }}</option>
+</div>
+
+<div class="form-group">
+    <label for="nilai">Nilai</label>
+    <select name="nilai" id="nilai" class="form-control">
+        @foreach([25, 50, 75, 100] as $n)
+            <option value="{{ $n }}" {{ old('nilai', $item->nilai ?? '') == $n ? 'selected' : '' }}>{{ $n }}</option>
         @endforeach
     </select>
-</p>
-<p>
-    <label>Keterangan:</label><br>
-    <textarea name="keterangan">{{ old('keterangan', $item->keterangan ?? '') }}</textarea>
-</p>
-<button type="submit">Simpan</button>
-<a href="{{ route('penilaian.index', 'kerja_sama') }}">Kembali</a>
+</div>
+
+<div class="form-group">
+    <label for="keterangan">Keterangan</label>
+    <textarea name="keterangan" id="keterangan" class="form-control" rows="3">{{ old('keterangan', $item->keterangan ?? '') }}</textarea>
+</div>

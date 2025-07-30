@@ -1,32 +1,74 @@
 @extends('layouts.app')
 
+@section('title', 'Inovasi')
 @section('content')
-<h2>Penilaian Inovasi</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
 
-    @if(session('error'))
-        <p style="color: red">{{ session('error') }}</p>
-    @endif
+            <div class="card">
+                  <div class="card-header bg-info">
+                    <h3 class="card-title text-white">Penilaian Inovasi </h3>
+                    <div class="card-tools">
+                        <a href="{{ route('penilaian.create', 'inovasi') }}"      class="btn btn-light btn-sm">
+                            <i class="fas fa-plus"></i> Tambah
+                        </a>
+                    </div>
+                </div>
+              
+               
 
-<a href="{{ route('penilaian.create', 'inovasi') }}">Tambah</a>
-<table border="1" cellpadding="8" cellspacing="0">
-    <tr>
-        <th>NIP</th><th>Nilai</th><th>Bulan</th><th>Tahun</th><th>Keterangan</th><th>Aksi</th>
-    </tr>
-    @foreach($data as $item)
-    <tr>
-        <td>{{ $item->nip }}</td>
-        <td>{{ $item->nilai }}</td>
-        <td>{{ $item->bulan }}</td>
-        <td>{{ $item->tahun }}</td>
-        <td>{{ $item->keterangan }}</td>
-        <td>
-            <a href="{{ route('penilaian.edit', ['inovasi', $item->id]) }}">Edit</a>
-            <form action="{{ route('penilaian.destroy', ['inovasi', $item->id]) }}" method="POST" style="display:inline">
-                @csrf @method('DELETE')
-                <button onclick="return confirm('Hapus?')">Hapus</button>
-            </form>
-        </td>
-    </tr>
-    @endforeach
-</table>
+                <div class="card-body">
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>NIP</th>
+                                    <th>Nilai</th>
+                                    <th>Bulan</th>
+                                    <th>Tahun</th>
+                                    <th>Keterangan</th>
+                                    <th class="text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($data as $item)
+                                    <tr>
+                                        <td>{{ $item->nip }}</td>
+                                        <td>{{ $item->nilai }}</td>
+                                        <td>{{ $item->bulan }}</td>
+                                        <td>{{ $item->tahun }}</td>
+                                        <td>{{ $item->keterangan }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('penilaian.edit', ['inovasi', $item->id]) }}" class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                            <form action="{{ route('penilaian.destroy', ['inovasi', $item->id]) }}" method="POST" class="d-inline">
+                                                @csrf @method('DELETE')
+                                                <button class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">
+                                                    <i class="fas fa-trash"></i> Hapus
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">Tidak ada data penilaian inovasi.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+            </div> 
+
+        </div>
+    </div>
+</div>
 @endsection

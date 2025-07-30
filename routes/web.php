@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Pegawai;
+use App\Models\IzinKeluar;
+use App\Models\TugasTambahan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\Auth\PegawaiLoginController;
@@ -17,6 +20,14 @@ Route::post('/login', [PegawaiLoginController::class, 'login']);
 Route::post('/logout', [PegawaiLoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth:pegawai'])->group(function () {
+        Route::get('/dashboard', function () {
+        return view('dashboard', [
+            'totalPegawai' => Pegawai::count(),
+            'totalIzin' => IzinKeluar::count(),
+            'totalTugas' => TugasTambahan::count(),
+        ]);
+    })->name('dashboard');
+    
     Route::resource('pegawai', PegawaiController::class);
     Route::resource('izin_keluar', IzinKeluarController::class);
     Route::resource('tugas_tambahan', TugasTambahanController::class);
