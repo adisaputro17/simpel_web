@@ -7,6 +7,7 @@ use App\Http\Controllers\IzinKeluarController;
 use App\Http\Controllers\TugasTambahanController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PenampilanHarianController;
+use App\Http\Controllers\LayananController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,4 +34,6 @@ Route::middleware(['auth:pegawai'])->group(function () {
     Route::get('penampilan', [PenampilanHarianController::class, 'index'])->name('penampilan.index');
     Route::get('penampilan/create', [PenampilanHarianController::class, 'create'])->name('penampilan.create');
     Route::post('penampilan', [PenampilanHarianController::class, 'store'])->name('penampilan.store');
+
+    Route::resource('layanan', LayananController::class);
 });
