@@ -10,9 +10,11 @@
             <div class="card shadow">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="card-title mb-0">Data Penampilan Harian</h3>
+                    @if(auth('pegawai')->user()->bawahan->count() > 0)
                     <a href="{{ route('penampilan.create') }}" class="btn btn-sm btn-primary">
                         <i class="fas fa-plus-circle"></i> Input Penilaian
                     </a>
+                    @endif
                 </div>
 
                 <div class="card-body">

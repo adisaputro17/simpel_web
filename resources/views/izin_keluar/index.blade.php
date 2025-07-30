@@ -40,7 +40,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($izinKeluar as $item)
+                                @foreach($izinKeluar as $item)
                                     <tr>
                                         <td>{{ $item->nip }}</td>
                                         <td>{{ $item->pegawai->nama ?? '-' }}</td>
@@ -65,11 +65,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="text-center text-muted">Tidak ada data</td>
-                                    </tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
                     </div> <!-- /.table-responsive -->
