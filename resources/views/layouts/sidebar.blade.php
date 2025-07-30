@@ -75,7 +75,7 @@
                     </ul>
                 </li>
                   <li class="nav-item">
-                    <a href="{{ route('penampilan.index') }}" class="nav-link {{ request()->is('izin_keluar*') ? 'active' : '' }}">
+                    <a href="{{ route('penampilan.index') }}" class="nav-link {{ request()->is('penampilan*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-check"></i>
                         <p>Penampilan</p>
                     </a>
