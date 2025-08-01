@@ -81,7 +81,21 @@
                     </a>
                 </li>
 
-                
+                <li class="nav-item">
+                    <a href="{{ route('layanan.index') }}" class="nav-link {{ request()->is('layanan*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-clipboard-list"></i>
+                        <p>Layanan</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('keluhan.index') }}" class="nav-link {{ request()->is('keluhan*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-comments"></i>
+                        <p>Keluhan</p>
+                    </a>
+                </li>
+
+
             </ul>
         </nav>
     </div>

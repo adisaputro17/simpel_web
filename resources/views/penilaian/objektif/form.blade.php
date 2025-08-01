@@ -1,14 +1,15 @@
-<div class="mb-3">
-    <label for="nip" class="form-label">Pegawai</label>
-    <select name="nip" id="nip" class="form-control select2">
+<div class="form-group">
+    <label for="nip">Pegawai</label>
+    <select name="nip" id="nip" class="form-control select2" required>
         <option value="">-- Pilih Pegawai --</option>
-        @foreach($pegawai as $p)
+         @foreach($pegawai as $p)
             <option value="{{ $p->nip }}" {{ old('nip', $item->nip ?? '') == $p->nip ? 'selected' : '' }}>
                 {{ $p->nama }} ({{ $p->nip }})
             </option>
         @endforeach
     </select>
 </div>
+
 
 <div class="mb-3">
     <label for="bulan" class="form-label">Bulan</label>

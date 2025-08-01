@@ -11,6 +11,7 @@ use App\Models\TugasTambahan;
 use App\Models\PenampilanHarian;
 use App\Models\Layanan;
 use App\Models\Keluhan;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -21,31 +22,38 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
+    
+        $nip = Auth::user()?->nip;
+        $totalPegawai = Pegawai::where('atasan_id', $nip)->count(); 
+
+        $totalTugas = TugasTambahan::where('nip', $nip)->count();
+
+        $totalIzin  = IzinKeluar::where('nip', $nip)->count();
+  
+
         $bulan_awal = sprintf("%02d", $request->input('bulan_awal'));
         $bulan_akhir = sprintf("%02d", $request->input('bulan_akhir'));
         $tahun = $request->input('tahun');
-
-        // Ambil semua pegawai
         $pegawais = Pegawai::all();
 
-        // Hitung izin keluar per pegawai
+       
         $data = $pegawais->map(function ($pegawai) use ($bulan_awal, $bulan_akhir, $tahun) {
 
-            // absensi
+     
             $nilaiAbsensi = 100;
             $nilaiAbsensiBobot = 100 * 0.3;
 
-            // apel
+     
             $nilaiApel = 100;
             $nilaiApelBobot = 100 * 0.3;
 
-            // izin keluar
+       
             $izin = IzinKeluar::where('nip', $pegawai->nip)
                 ->whereBetween('bulan', [$bulan_awal, $bulan_akhir])
                 ->where('tahun', $tahun)
                 ->get();
 
-            // Hitung total jam izin keluar
+            
             $totalJam = $izin->sum(function ($item) {
                 $keluar = Carbon::parse($item->jam_keluar);
                 $kembali = Carbon::parse($item->jam_kembali);
@@ -57,18 +65,16 @@ class DashboardController extends Controller
             $totalNilaiKehadiran = $nilaiAbsensiBobot + $nilaiApelBobot + $nilaiIzinKeluarBobot;
             $totalNilaiKehadiranBobot = $totalNilaiKehadiran * 0.2;
 
-            // kinerja
-
-            // kinerja
+          
             $nilaiKinerja = 100;
             $nilaiKinerjaBobot = 100 * 0.2;
 
-            // objektif
+   
             $penilaianObjektif = Penilaian::where('nip', $pegawai->nip)
                 ->where('jenis', 'objektif')
                 ->where('tahun', $tahun)
                 ->whereBetween('bulan', [$bulan_awal, $bulan_akhir])
-                ->pluck('nilai'); // ambil hanya kolom nilai
+                ->pluck('nilai'); 
 
             $nilaiObjektif = $penilaianObjektif->count() > 0 
                 ? round($penilaianObjektif->avg(), 2)
@@ -76,13 +82,13 @@ class DashboardController extends Controller
             $nilaiObjektifBobot = $nilaiObjektif * 0.45;
 
 
-            // tugas tambahan
+    
             $tugasTambahan = TugasTambahan::where('nip', $pegawai->nip)
                 ->whereBetween('bulan', [$bulan_awal, $bulan_akhir])
                 ->where('tahun', $tahun)
                 ->get();
 
-            // Hitung total jam tugas tambahan
+          
             $totalJam = $tugasTambahan->sum(function ($item) {
                 $mulai = Carbon::parse($item->jam_mulai);
                 $selesai = Carbon::parse($item->jam_selesai);
@@ -95,12 +101,12 @@ class DashboardController extends Controller
             $totalNilaiKinerjaBobot = $totalNilaiKinerja * 0.25;
 
 
-            // kerja sama
+  
             $penilaianKerjaSama = Penilaian::where('nip', $pegawai->nip)
                 ->where('jenis', 'kerja_sama')
                 ->where('tahun', $tahun)
                 ->whereBetween('bulan', [$bulan_awal, $bulan_akhir])
-                ->pluck('nilai'); // ambil hanya kolom nilai
+                ->pluck('nilai'); 
 
             $nilaiKerjaSama = $penilaianKerjaSama->count() > 0 
                 ? round($penilaianKerjaSama->avg(), 2)
@@ -108,19 +114,19 @@ class DashboardController extends Controller
             $nilaiKerjaSamaBobot = $nilaiKerjaSama * 0.15;
 
 
-            // inovasi
+     
             $penilaianInovasi = Penilaian::where('nip', $pegawai->nip)
                 ->where('jenis', 'inovasi')
                 ->where('tahun', $tahun)
                 ->whereBetween('bulan', [$bulan_awal, $bulan_akhir])
-                ->pluck('nilai'); // ambil hanya kolom nilai
+                ->pluck('nilai'); 
 
             $nilaiInovasi = $penilaianInovasi->count() > 0 
                 ? round($penilaianInovasi->avg(), 2)
                 : 0;
             $nilaiInovasiBobot = $nilaiInovasi * 0.15;
 
-            // penampilan
+       
             $atributLengkap = PenampilanHarian::where('nip', $pegawai->nip)
                 ->whereBetween('bulan', [$bulan_awal, $bulan_akhir])
                 ->where('tahun', $tahun)
@@ -232,9 +238,9 @@ class DashboardController extends Controller
             ];
         });
 
-        // return response()->json($data);
 
-        return view('dashboard.index', compact('data', 'bulan_awal', 'bulan_akhir', 'tahun'));
+
+        return view('dashboard.index', compact('data', 'bulan_awal', 'bulan_akhir', 'tahun', 'totalPegawai','totalTugas','totalIzin'));
 
     }
 

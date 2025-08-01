@@ -23,7 +23,7 @@
                             <i class="fas fa-arrow-left"></i> Kembali
                         </a>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Simpan Perubahan
+                            <i class="fas fa-save"></i> Update 
                         </button>
                     </div>
                 </form>

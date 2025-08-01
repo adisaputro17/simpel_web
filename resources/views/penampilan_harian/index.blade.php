@@ -6,17 +6,15 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-
             <div class="card shadow">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title mb-0">Data Penampilan Harian</h3>
+                <div class="card-header bg-light text-white">
+                    <h4 class="card-title mb-0"><strong>Data Penampilan Harian</strong></h4>
                     @if(auth('pegawai')->user()->bawahan->count() > 0)
-                    <a href="{{ route('penampilan.create') }}" class="btn btn-sm btn-primary">
-                        <i class="fas fa-plus-circle"></i> Input Penilaian
+                    <a href="{{ route('penampilan.create') }}" class="btn btn-primary btn-sm float-right">
+                        <i class="fas fa-plus-circle"></i>  Input Penilaian
                     </a>
                     @endif
                 </div>
-
                 <div class="card-body">
                     @if(session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -27,7 +25,7 @@
 
                     <div class="table-responsive">
                         <table id="penampilanTable" class="table table-bordered table-striped table-hover">
-                            <thead class="thead-dark text-center">
+                            <thead class="bg-primary text-white text-center">
                                 <tr>
                                     <th>Tanggal</th>
                                     <th>NIP</th>
@@ -56,10 +54,10 @@
                                 @endforelse
                             </tbody>
                         </table>
-                    </div> <!-- /.table-responsive -->
+                    </div> 
 
-                </div> <!-- /.card-body -->
-            </div> <!-- /.card -->
+                </div>
+            </div> 
 
         </div>
     </div>
@@ -67,12 +65,12 @@
 @endsection
 
 @push('styles')
-<!-- DataTables CSS -->
+
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
 @endpush
 
 @push('scripts')
-<!-- DataTables JS -->
+
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
 
@@ -82,14 +80,15 @@
             responsive: true,
             autoWidth: false,
             language: {
-                search: "Cari:",
-                lengthMenu: "Tampilkan _MENU_ entri",
-                zeroRecords: "Tidak ditemukan data yang cocok",
-                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                search: "Search:",
+                lengthMenu: "Show  _MENU_ entries",
+                zeroRecords: "Tidak Ada Data di Temukan",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries",
                 infoEmpty: "Tidak ada data tersedia",
                 infoFiltered: "(disaring dari _MAX_ total entri)"
             }
         });
+        
     });
 </script>
 @endpush

@@ -25,7 +25,7 @@
 
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped table-hover">
-                                <thead class="thead-dark text-center">
+                             <thead class="bg-primary text-white text-center">
                                     <tr>
                                         <th>NIP</th>
                                         <th>Nama</th>

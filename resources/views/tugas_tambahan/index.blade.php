@@ -8,14 +8,15 @@
         <div class="col-12">
 
             <div class="card shadow-sm">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="card-title mb-0">Daftar Tugas Tambahan</h4>
-                    @if(auth('pegawai')->user()->bawahan->count() > 0)
-                    <a href="{{ route('tugas_tambahan.create') }}" class="btn btn-sm btn-primary">
-                        <i class="fas fa-plus-circle"></i> Tambah Tugas
+                <div class="card-header bg-light text-white">
+                    <h3 class="card-title"><b>Daftar Tugas Tambahan</b></h3>
+                     @if(auth('pegawai')->user()->bawahan->count() > 0)
+                    <a href="{{ route('tugas_tambahan.create') }}" class="btn btn-primary btn-sm float-right">
+                        <i class="fas fa-plus-circle"></i>Tambah Tugas
                     </a>
                     @endif
                 </div>
+                
 
                 <div class="card-body">
                     @if(session('success'))
@@ -52,9 +53,10 @@
                                                 <a href="{{ route('tugas_tambahan.edit', $item->id) }}" class="btn btn-sm btn-warning">
                                                     <i class="fas fa-edit"></i> Edit
                                                 </a>
-                                                <form method="POST" action="{{ route('tugas_tambahan.destroy', $item->id) }}" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?')">
-                                                    @csrf @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger">
+                                                <form method="POST" action="{{ route('tugas_tambahan.destroy', $item->id) }}" class="d-inline form-hapus">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger btn-hapus">
                                                         <i class="fas fa-trash"></i> Hapus
                                                     </button>
                                                 </form>
@@ -62,6 +64,7 @@
                                                 <span class="badge badge-secondary">Read Only</span>
                                             @endif
                                         </td>
+
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -83,17 +86,19 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#tugasTable').DataTable({
             responsive: true,
             autoWidth: false,
             language: {
-                search: "Cari:",
-                lengthMenu: "Tampilkan _MENU_ data per halaman",
+                search: "Search:",
+                lengthMenu: "Show _MENU_ entries",
                 zeroRecords: "Belum ada data tugas tambahan",
-                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-                infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
+                info: " Showing _START_ to _END_ of _TOTAL_ entries",
+                infoEmpty: " 0 to 0 of 0 entries",
                 infoFiltered: "(disaring dari _MAX_ total data)",
                 paginate: {
                     first: "Pertama",
@@ -102,6 +107,26 @@
                     previous: "Sebelumnya"
                 },
             }
+        });
+
+        $('.btn-hapus').on('click', function (e) {
+            e.preventDefault();
+            let form = $(this).closest('form');
+
+            Swal.fire({
+                title: 'Yakin ingin menghapus?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
         });
     });
 </script>

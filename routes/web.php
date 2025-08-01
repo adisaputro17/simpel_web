@@ -3,6 +3,7 @@
 use App\Models\Pegawai;
 use App\Models\IzinKeluar;
 use App\Models\TugasTambahan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\Auth\PegawaiLoginController;
@@ -18,21 +19,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 
 Route::get('/login', [PegawaiLoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [PegawaiLoginController::class, 'login']);
 Route::post('/logout', [PegawaiLoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth:pegawai'])->group(function () {
-        Route::get('/dashboard', function () {
-        return view('dashboard', [
-            'totalPegawai' => Pegawai::count(),
-            'totalIzin' => IzinKeluar::count(),
-            'totalTugas' => TugasTambahan::count(),
-        ]);
-    })->name('dashboard');
-    
+       
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('pegawai', PegawaiController::class);
     Route::resource('izin_keluar', IzinKeluarController::class);
     Route::resource('tugas_tambahan', TugasTambahanController::class);

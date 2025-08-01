@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Kerja Sama')
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -25,7 +26,7 @@
                         @csrf
                         @include('penilaian.kerja_sama.form')
 
-                        <div class="text-end mt-3">
+                         <div class="card-footer text-right">
                             <button type="submit" class="btn btn-success">
                                 <i class="fas fa-save"></i> Simpan
                             </button>

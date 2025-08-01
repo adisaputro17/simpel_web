@@ -14,15 +14,15 @@ class PegawaiLoginController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $credentials = $request->only('nip', 'password');
+{
+    $credentials = $request->only('nip', 'password');
 
-        if (Auth::guard('pegawai')->attempt($credentials)) {
-            return redirect()->intended('/pegawai');
-        }
-
-        return back()->withErrors(['nip' => 'NIP atau password salah.'])->withInput();
+    if (Auth::guard('pegawai')->attempt($credentials)) {
+        return redirect()->intended('/dashboard');
     }
+
+    return back()->withErrors(['nip' => 'NIP atau password salah.'])->withInput();
+}
 
     public function logout(Request $request)
     {

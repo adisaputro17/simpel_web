@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
+@section('title', 'Kerja Sama')
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-8">
 
             <div class="card">
-                <div class="card-header bg-warning text-white">
+                <div class="card-header bg-primary text-white">
                     <h4 class="card-title mb-0">Edit Penilaian Kerja Sama</h4>
                 </div>
 
@@ -27,7 +28,7 @@
 
                         @include('penilaian.kerja_sama.form')
 
-                        <div class="text-end mt-3">
+                        <div class="card-footer text-right">
                             <button type="submit" class="btn btn-success">
                                 <i class="fas fa-save"></i> Perbarui
                             </button>

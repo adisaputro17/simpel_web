@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Inovasi')
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -14,7 +15,7 @@
                     <form method="POST" action="{{ route('penilaian.store', 'inovasi') }}">
                         @csrf
                         @include('penilaian.inovasi.form')
-                        <div class="d-flex justify-content-between mt-4">
+                         <div class="card-footer text-right">
                             <a href="{{ route('penilaian.index', 'inovasi') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Kembali
                             </a>

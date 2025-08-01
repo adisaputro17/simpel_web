@@ -6,15 +6,15 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-
-            <div class="card shadow-sm">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="card-title mb-0">Data Pegawai</h4>
-                    <a href="{{ route('pegawai.create') }}" class="btn btn-sm btn-primary">
-                        <i class="fas fa-plus-circle"></i> Tambah Pegawai
-                    </a>
+           <div class="card-header bg-light text-white">
+                    <h4 class="card-title mb-0"><strong>Data Pegawai</strong></h4>
+                    @if(auth('pegawai')->user()->bawahan->count() > 0)
+                    <a href="{{ route('pegawai.create') }}" class="btn btn-primary btn-sm float-right">
+                        <i class="fas fa-plus-circle"></i>Tambah Pegawai
+                     </a>
+                    @endif
                 </div>
-
+           
                 <div class="card-body">
                     @if(session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -27,6 +27,7 @@
                         <table id="pegawaiTable" class="table table-bordered table-hover">
                             <thead class="bg-primary text-white text-center">
                                 <tr>
+                                    <th style="width: 1%;">NO</th>
                                     <th>NIP</th>
                                     <th>Nama</th>
                                     <th>Atasan</th>
@@ -34,8 +35,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($pegawais as $p)
-                                    <tr>
+                               @forelse($pegawais as $index => $p)
+                                    <tr> 
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $p->nip }}</td>
                                         <td>{{ $p->nama }}</td>
                                         <td>{{ $p->atasan->nama ?? '-' }}</td>
@@ -45,8 +47,8 @@
                                             </a>
                                             <form action="{{ route('pegawai.destroy', $p->nip) }}" method="POST" class="d-inline">
                                                 @csrf @method('DELETE')
-                                                <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus?')">
-                                                    <i class="fas fa-trash"></i> Hapus
+                                                 <button type="submit" class="btn btn-sm btn-danger btn-hapus">
+                                                    <i class="fas fa-trash-alt"></i> Hapus
                                                 </button>
                                             </form>
                                         </td>
@@ -58,39 +60,57 @@
                                 @endforelse
                             </tbody>
                         </table>
-                    </div> <!-- /.table-responsive -->
-                </div> <!-- /.card-body -->
-            </div> <!-- /.card -->
-
+                    </div>
+                </div> 
+            </div>
         </div>
     </div>
 </div>
 @endsection
 
 @push('styles')
-<!-- DataTables CSS -->
+
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
 @endpush
 
 @push('scripts')
-<!-- DataTables JS -->
+
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
         $('#pegawaiTable').DataTable({
             responsive: true,
             autoWidth: false,
             language: {
-                search: "Cari:",
-                lengthMenu: "Tampilkan _MENU_ data per halaman",
+                search: "Search:",
+                lengthMenu: "Show _MENU_ entries",
                 zeroRecords: "Tidak ditemukan",
-                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries",
                 infoEmpty: "Data kosong",
                 infoFiltered: "(disaring dari _MAX_ total data)"
             }
         });
+
+            $('.btn-hapus').click(function (e) {
+                e.preventDefault();
+                let form = $(this).closest('form');
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: "Data yang dihapus tidak dapat dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
     });
 </script>
 @endpush
