@@ -12,10 +12,13 @@ use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PenampilanHarianController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\KeluhanController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/login', [PegawaiLoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [PegawaiLoginController::class, 'login']);
